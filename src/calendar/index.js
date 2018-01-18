@@ -45,11 +45,13 @@ class Calendar extends Component {
     displayLoadingIndicator: PropTypes.bool,
     // Do not show days of other months in month page. Default = false
     hideExtraDays: PropTypes.bool,
-    hideWeekEnd: PropTypes.bool,
+    // Disable holiday [0-6]
+    hideHoliday: PropTypes.any,
     // Handler which gets executed on day press. Default = undefined
     onDayPress: PropTypes.func,
     // Handler which gets executed when visible month changes in calendar. Default = undefined
     onMonthChange: PropTypes.func,
+
     onVisibleMonthsChange: PropTypes.func,
     // Replace default arrows with custom ones (direction can be 'left' or 'right')
     renderArrow: PropTypes.func,
@@ -147,10 +149,9 @@ class Calendar extends Component {
     this.updateMonth (this.state.currentMonth.clone ().addMonths (count, true));
   }
 
-  isWeekend = date => {
+  getDay = date => {
     const dt = new Date (date);
-    if (dt.getDay () == 6 || dt.getDay () == 0) return true;
-    else return false;
+    return dt.getDay ();
   };
 
   renderDay (day, id) {
@@ -182,10 +183,12 @@ class Calendar extends Component {
     } else {
       const DayComp = this.getDayComponent ();
       const date = day.getDate ();
-      if (this.props.hideWeekEnd) {
-        const isWeekend = this.isWeekend (day);
-        if (isWeekend) {
-          state = 'disabled';
+      if (this.props.hideHoliday && this.props.hideHoliday.length > 0) {
+        const noDay = getDay (day);
+        for (let i = 0; i < this.props.hideHoliday.length; i++) {
+          if (noDay == this.props.hideHoliday[i]) {
+            state = 'disabled';
+          }
         }
       }
       dayComp = (
