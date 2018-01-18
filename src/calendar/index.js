@@ -184,7 +184,7 @@ class Calendar extends Component {
       const DayComp = this.getDayComponent ();
       const date = day.getDate ();
       if (this.props.hideHoliday && this.props.hideHoliday.length > 0) {
-        const noDay = getDay (day);
+        const noDay = this.getDay(day);
         for (let i = 0; i < this.props.hideHoliday.length; i++) {
           if (noDay == this.props.hideHoliday[i]) {
             state = 'disabled';
