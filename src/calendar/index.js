@@ -150,8 +150,8 @@ class Calendar extends Component {
   }
 
   getDay = date => {
-    const dt = new Date (date);
-    return dt.getDay ();
+    //const dt = new Date (date);
+    return date.getDay ();
   };
 
   renderDay (day, id) {
@@ -187,6 +187,7 @@ class Calendar extends Component {
         const noDay = this.getDay(day);
         for (let i = 0; i < this.props.hideHoliday.length; i++) {
           if (noDay == this.props.hideHoliday[i]) {
+            //console.log('disable day: '+noDay, day)
             state = 'disabled';
           }
         }
